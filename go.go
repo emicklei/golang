@@ -9,6 +9,7 @@ import (
 	"github.com/gqlc/compiler"
 	"github.com/gqlc/graphql/ast"
 	"io"
+	"strconv"
 	"sync"
 )
 
@@ -822,7 +823,15 @@ func getOptions(doc *ast.Document, opts string) (gOpts *Options, err error) {
 		docOpts := d.Args.Args[0].Value.(*ast.Arg_CompositeLit).CompositeLit.Value.(*ast.CompositeLit_ObjLit).ObjLit
 		for _, arg := range docOpts.Fields {
 			switch arg.Key.Name {
-			// TODO
+			case "package":
+				gOpts.Package = arg.Val.Value.(*ast.CompositeLit_BasicLit).BasicLit.Value
+			case "descriptions":
+				b, err := strconv.ParseBool(arg.Val.Value.(*ast.CompositeLit_BasicLit).BasicLit.Value)
+				if err != nil {
+					return gOpts, err
+				}
+
+				gOpts.Descriptions = b
 			}
 		}
 	}

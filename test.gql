@@ -1,6 +1,6 @@
 # Javascript Generator Options
 @go(options: {
-    package: "golang",
+    package: "main",
 })
 
 "Test Schema"
