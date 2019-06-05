@@ -4,3 +4,5 @@
 [![codecov](https://codecov.io/gh/gqlc/golang/branch/master/graph/badge.svg)](https://codecov.io/gh/gqlc/golang)
 
 # Go Generator
+
+This generates Go from a GraphQL Document.
