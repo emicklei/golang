@@ -634,4 +634,14 @@ type Query {
 	//	},
 	//	Description: "Query represents the queries this example provides.",
 	// })
+	//
+	// func init() {
+	//	var err error
+	//	Schema, err = graphql.NewSchema(graphql.SchemaConfig{
+	//		Query: QueryType,
+	//	})
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	// }
 }

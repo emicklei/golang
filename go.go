@@ -9,6 +9,7 @@ import (
 	"github.com/gqlc/compiler"
 	"github.com/gqlc/graphql/ast"
 	"io"
+	"path/filepath"
 	"strconv"
 	"sync"
 )
@@ -38,8 +39,6 @@ func (g *Generator) Reset() {
 	}
 	g.indent = g.indent[0:0]
 }
-
-const goFileName = "schema.go"
 
 var typeSuffix = []byte("Type")
 
@@ -119,11 +118,53 @@ func (g *Generator) Generate(ctx context.Context, doc *ast.Document, opts string
 		}
 	}
 
+	if doc.Schema != nil {
+		g.P()
+		g.P("func init() {")
+		g.In()
+
+		g.P("var err error")
+		g.P("Schema, err = graphql.NewSchema(graphql.SchemaConfig{")
+		g.In()
+
+		rootOps := doc.Schema.Spec.(*ast.TypeDecl_TypeSpec).TypeSpec.Type.(*ast.TypeSpec_Schema).Schema.RootOps.List
+		for _, op := range rootOps {
+			g.Write(g.indent)
+			switch op.Name.Name {
+			case "query":
+				g.WriteString("Query: ")
+			case "mutation":
+				g.WriteString("Mutation: ")
+			case "subscription":
+				g.WriteString("Subscription: ")
+			}
+			g.WriteString(op.Type.(*ast.Field_Ident).Ident.Name)
+			g.Write(typeSuffix)
+			g.WriteByte(',')
+			g.WriteByte('\n')
+		}
+
+		g.Out()
+		g.P("})")
+
+		g.P("if err != nil {")
+		g.In()
+
+		g.P("panic(err)")
+
+		g.Out()
+		g.P("}")
+
+		g.Out()
+		g.P("}")
+	}
+
 	// Extract generator context
 	gCtx := compiler.Context(ctx)
 
 	// Open file to write to
-	goFile, err := gCtx.Open(goFileName)
+	goFileName := doc.Name[:len(doc.Name)-len(filepath.Ext(doc.Name))]
+	goFile, err := gCtx.Open(goFileName + ".go")
 	defer goFile.Close()
 	if err != nil {
 		return
