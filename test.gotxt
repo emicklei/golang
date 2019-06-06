@@ -145,7 +145,7 @@ var DirectionType = graphql.NewEnum(graphql.EnumConfig{
 
 var PointType = graphql.NewInputObject(graphql.InputObjectConfig{
 	Name: "Point",
-	Fields: graphql.InputObjectFieldConfigMap{
+	Fields: graphql.InputObjectConfigFieldMap{
 		"x": &graphql.InputObjectFieldConfig{
 			Type: graphql.NewNonNull(graphql.Float),
 		},

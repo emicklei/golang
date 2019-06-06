@@ -349,7 +349,7 @@ func TestInput(t *testing.T) {
 
 		ex := []byte(`NewInputObject(graphql.InputObjectConfig{
 	Name: "Test",
-	Fields: graphql.InputObjectFieldConfigMap{
+	Fields: graphql.InputObjectConfigFieldMap{
 		"one": &graphql.InputObjectFieldConfig{
 			Type: graphql.Int,
 		},
@@ -419,7 +419,7 @@ func TestInput(t *testing.T) {
 
 		ex := []byte(`NewInputObject(graphql.InputObjectConfig{
 	Name: "Test",
-	Fields: graphql.InputObjectFieldConfigMap{
+	Fields: graphql.InputObjectConfigFieldMap{
 		"one": &graphql.InputObjectFieldConfig{
 			Type: graphql.Int,
 			DefaultValue: 1,

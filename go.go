@@ -533,7 +533,7 @@ func (g *Generator) generateInput(name string, descr bool, doc *ast.DocGroup, ts
 
 	g.P("Name: \"", name, "\",")
 
-	g.P("Fields: graphql.InputObjectFieldConfigMap{")
+	g.P("Fields: graphql.InputObjectConfigFieldMap{")
 	g.In()
 
 	for _, f := range input.Fields.List {
